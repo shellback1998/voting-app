@@ -1,15 +1,27 @@
 const express = require("express");
 const { Pool } = require("pg");
+const process = require("process");
 
 const app = express();
+
+
+// --------------------------------------------------
+// PostgreSQL Configuration
+// --------------------------------------------------
+//
+// The database password is supplied through the
+// POSTGRES_PASSWORD environment variable rather
+// than being stored directly in the source code.
+//
 
 const pool = new Pool({
     host: "db",
     database: "votes",
     user: "postgres",
-    password: "postgres",
+    password: process.env.POSTGRES_PASSWORD,
     port: 5432
 });
+
 
 app.get("/", async (req, res) => {
     try {
