@@ -1,0 +1,39 @@
+services:
+  vote:
+    build: ./vote
+    ports:
+      - "5000:5000"
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:7-alpine
+
+  worker:
+    build: ./worker
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    depends_on:
+      - redis
+      - db
+
+  db:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_DB: votes
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - db-data:/var/lib/postgresql
+
+  result:
+    build: ./result
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+
+volumes:
+  db-data:

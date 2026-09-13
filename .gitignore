@@ -1,0 +1,38 @@
+# Environment files and secrets
+.env
+.env.*
+*.secret
+secrets/
+
+# Python generated files
+__pycache__/
+*.pyc
+*.pyo
+
+# Node.js dependencies
+node_modules/
+
+# Logs
+*.log
+
+# Database / backup files
+*.sql
+*.sql.gz
+*.db
+
+# Archives and backups
+*.tar
+*.tar.gz
+*.zip
+*.bak
+
+# Editor settings
+.vscode/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*~
