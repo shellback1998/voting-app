@@ -33,3 +33,27 @@ jobs:
 
       - name: Build result image
         run: docker build -t voting-app-result:ci ./result
+
+      - name: Start Docker Compose stack
+        env:
+          POSTGRES_PASSWORD: ci-test-password
+        run: docker compose up -d --build
+
+      - name: Wait for services to start
+        run: sleep 10
+
+      - name: Test vote service
+        run: curl --fail http://localhost:5000
+
+      - name: Test result service
+        run: curl --fail http://localhost:3000
+
+      - name: Show Docker Compose status
+        if: always()
+        run: docker compose ps
+
+      - name: Stop Docker Compose stack
+        if: always()
+        env:
+          POSTGRES_PASSWORD: ci-test-password
+        run: docker compose down -v
