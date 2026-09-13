@@ -1,0 +1,30 @@
+---
+name: Docker Build Checks
+
+"on":
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+jobs:
+  docker-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Build vote image
+        run: docker build -t voting-app-vote:ci ./vote
+
+      - name: Build worker image
+        run: docker build -t voting-app-worker:ci ./worker
+
+      - name: Build result image
+        run: docker build -t voting-app-result:ci ./result
