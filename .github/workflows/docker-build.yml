@@ -20,6 +20,11 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: Validate Docker Compose configuration
+        env:
+          POSTGRES_PASSWORD: ci-test-password
+        run: docker compose config
+
       - name: Build vote image
         run: docker build -t voting-app-vote:ci ./vote
 
